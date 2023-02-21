@@ -7,8 +7,8 @@ with open('schema.sql') as f:
 
 cur = conn.cursor()
 
-cur.execute("INSERT INTO songs (title, artist, album) VALUES (?, ?, ?)", ("The Sound of Silence", "Simon & Garfunkel", "Sounds of Silence"))
-cur.execute("INSERT INTO songs (title, artist, album) VALUES (?, ?, ?)", ("The Sound of Silence2", "Simon & Garfunkel", "Sounds of Silence"))
+cur.execute("INSERT INTO songs (title, artist, album, filename) VALUES (?, ?, ?, ?)", ("Risk", "StudioKolomna", "Risk", "risk.mp3"))
+cur.execute("INSERT INTO songs (title, artist, album, filename) VALUES (?, ?, ?, ?)", ("LifeLike", "AlexiAction", "LifeLike", "lifelike.mp3"))
 
 conn.commit()
 conn.close()

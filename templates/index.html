@@ -7,6 +7,9 @@
             <h2>{{ song.title }}</h2>
             <p>{{ song.artist }}</p>
             <p>{{ song.album }}</p>
+            <audio controls>
+                <source src="{{ url_for('serve_mp3', filename=song.filename) }}" type="audio/mpeg">
+            </audio>
         </div>
     {% endfor %}
 {% endblock %}
