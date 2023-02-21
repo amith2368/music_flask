@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from flask import Flask, render_template, request, send_from_directory, redirect, url_for, flash, abort, send_file
+from flask import Flask, render_template, request, send_from_directory, redirect, url_for, abort, send_file
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'thisisasecret'
@@ -30,6 +30,8 @@ def song(song_id):
         abort(404)
     return render_template('song.html', song=song)
 
+
+
 @app.route('/create/', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
@@ -49,6 +51,26 @@ def create():
         
         return redirect(url_for('index'))
     return render_template('create.html')
+
+@app.route('/delete/<song_id>', methods=('GET', 'POST'))
+def delete(song_id):
+    conn = get_db_connection()
+    conn.execute('DELETE FROM songs WHERE id = ?', (song_id,))
+    conn.commit()
+    conn.close()
+    return redirect(url_for('index'))
+
+@app.route('/search', methods=('GET', 'POST'))
+def search():
+    if request.method == 'POST':
+        search = request.form['query']
+        conn = get_db_connection()
+        songs = conn.execute('SELECT * FROM songs WHERE title LIKE ? OR artist LIKE ? OR album LIKE ?',
+                             ('%' + search + '%', '%' + search + '%', '%' + search + '%')).fetchall()
+        conn.close()
+        return render_template('results.html', songs=songs)
+    return render_template('search.html')
+
 
 @app.route("/")
 def index():
