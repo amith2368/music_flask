@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>{% block title %} Add a New Song {% endblock %}</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <label for "title">Song Title</label>
+        <br>
+        <input type="text" name="title" id="title" value="{{ request.form['title']}}"></input>
+        <br>
+
+        <label for="artist">Artist</label>
+        <br>
+        <input type="text" name="artist" id="artist" value="{{ request.form['artist']}}"></input>
+        <br>
+
+        
+        <label for="album">Album</label>
+        <br>
+        <input type="text" name="album" id="album" value="{{ request.form['album']}}"></input>
+        <br>
+        <label for="album">Import your Song File</label>
+        <br>
+        <input type="file" name="file">
+        <br><br>
+        <button type="submit">Upload</button>
+        
+    </form>
+{% endblock %}
