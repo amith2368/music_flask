@@ -5,9 +5,11 @@
             <h1>{{ song.title }}</h1>
             <h3>{{ song.artist }}</h3>
             <p>{{ song.album }}</p>
-            <button url=>Play</button>
             <audio controls>
                 <source src="{{ url_for('serve_mp3', filename=song.filename) }}" type="audio/mpeg">
             </audio>
+            <br>
+            <button><a href="{{ url_for('download_file', filename = song.filename) }}">Download Song</a></button>
+
         </div>
 {% endblock %}

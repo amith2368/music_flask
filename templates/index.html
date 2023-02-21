@@ -7,7 +7,7 @@
             <h2>{{ song.title }}</h2>
             <p>{{ song.artist }}</p>
             <p>{{ song.album }}</p>
-            <button url=>Play</button>
+            <button><a href="/song/{{ song.id }}">View Song</a></button>
         </div>
     {% endfor %}
 {% endblock %}

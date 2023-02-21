@@ -1,7 +1,7 @@
 import os
 import sqlite3
 
-from flask import Flask, render_template, request, send_from_directory, redirect, url_for, flash, abort
+from flask import Flask, render_template, request, send_from_directory, redirect, url_for, flash, abort, send_file
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'thisisasecret'
@@ -14,6 +14,12 @@ def get_db_connection():
 @app.route('/mp3_files/<filename>')
 def serve_mp3(filename):
     return send_from_directory('static/mp3_files', filename)
+
+@app.route('/download/<filename>')
+def download_file(filename):
+    path = 'static/mp3_files/' + filename
+    return send_file(path, as_attachment=True)
+
 
 @app.route('/song/<int:song_id>')
 def song(song_id):
