@@ -1,10 +1,13 @@
 import os
 import sqlite3
+from flask_wtf.csrf import CSRFProtect
+
 
 from flask import Flask, render_template, request, send_from_directory, redirect, url_for, abort, send_file
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'thisisasecret'
+csrf = CSRFProtect(app)
 
 def get_db_connection():
     conn = sqlite3.connect('database.db')
@@ -35,12 +38,18 @@ def song(song_id):
 @app.route('/create/', methods=('GET', 'POST'))
 def create():
     if request.method == 'POST':
+        # check if all fields are filled
+        if not request.form['title'] or not request.form['artist'] or not request.form['album']:
+            return render_template('create.html', error='Please fill in all fields')
         title = request.form['title']
         artist = request.form['artist']
         album = request.form['album']
         print(request.files['file'].filename)
         mfile = request.files['file']
         if mfile:
+            # check if song is in mp3 format
+            if not mfile.filename.endswith('.mp3'):
+                return render_template('create.html', error='File must be in mp3 format')
             filename = mfile.filename
             mfile.save(os.path.join(app.static_folder, 'mp3_files', filename))
             conn = get_db_connection()
@@ -50,7 +59,8 @@ def create():
             conn.close()
         
         return redirect(url_for('index'))
-    return render_template('create.html')
+    if request.method == 'GET':
+        return render_template('create.html')
 
 @app.route('/delete/<song_id>', methods=('GET', 'POST'))
 def delete(song_id):
@@ -68,7 +78,7 @@ def search():
         songs = conn.execute('SELECT * FROM songs WHERE title LIKE ? OR artist LIKE ? OR album LIKE ?',
                              ('%' + search + '%', '%' + search + '%', '%' + search + '%')).fetchall()
         conn.close()
-        return render_template('results.html', songs=songs)
+        return render_template('results.html', songs=songs, query=search)
     return render_template('search.html')
 
 

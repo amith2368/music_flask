@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 
 {% block content %}
-        <div class="song">
-            <h1>{{ song.title }}</h1>
-            <h3>{{ song.artist }}</h3>
-            <p>{{ song.album }}</p>
-            <audio controls>
-                <source src="{{ url_for('serve_mp3', filename=song.filename) }}" type="audio/mpeg">
-            </audio>
-            <br>
-            <button><a href="{{ url_for('download_file', filename = song.filename) }}">Download Song</a></button>
-
+        <div class="card col-12">
+            <div class="p-5">
+                <h5 class="card-title">{{ song.title }}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Artist: {{ song.artist }}</h6>
+                <h6 class="card-subtitle mb-2 text-muted">Album: {{ song.album }}</h6>
+                <audio controls>
+                    <source src="{{ url_for('serve_mp3', filename=song.filename) }}" type="audio/mpeg">
+                </audio>
+                <br><br>
+                <a href="{{ url_for('download_file', filename = song.filename) }}">
+                    <button class="btn btn-success">Download Song</button>
+                </a>
+            </div>
         </div>
 {% endblock %}

@@ -3,20 +3,23 @@
 {% block content %}
     <h1>{% block title %} Add a New Song {% endblock %}</h1>
     <form method="POST" enctype="multipart/form-data">
+        {% if error %}
+            <p class="alert alert-danger" role="alert">{{ error }}</p>
+        {% endif %}
         <label for "title">Song Title</label>
         <br>
-        <input type="text" name="title" id="title" value="{{ request.form['title']}}"></input>
+        <input type="text" name="title" id="title" value="{{ request.form['title']}}" required></input>
         <br>
 
         <label for="artist">Artist</label>
         <br>
-        <input type="text" name="artist" id="artist" value="{{ request.form['artist']}}"></input>
+        <input type="text" name="artist" id="artist" value="{{ request.form['artist']}}" required></input>
         <br>
 
         
         <label for="album">Album</label>
         <br>
-        <input type="text" name="album" id="album" value="{{ request.form['album']}}"></input>
+        <input type="text" name="album" id="album" value="{{ request.form['album']}}" required></input>
         <br>
         <label for="album">Import your Song File</label>
         <br>

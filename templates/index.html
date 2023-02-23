@@ -1,19 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Home</h1>
-    {% for song in songs %}
-        <div class="song">
-            <h2>{{ song.title }}</h2>
-            <p>{{ song.artist }}</p>
-            <p>{{ song.album }}</p>
-            <button><a href="/song/{{ song.id }}">View Song</a></button>
-            <br>
-            <form action="/delete/{{ song.id }}" method="POST">
-                <input type="hidden" name="_method" value="DELETE">
-                <input type="submit" value="Delete Song">
-            </form>
+    
+    <div class="container">
+        <h1>All Songs</h1>
+        <div class="row">
+            {% for song in songs %}
+                <div class="card col-4 me-2" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ song.title }}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Artist: {{ song.artist }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Album: {{ song.album }}</h6>
+                        <div class="row">
+                            <div class="col-6">
+                                <a href="/song/{{ song.id }}" class="card-link">
+                                    <button type="button" class="btn btn-primary">View Song</button>
+                                </a>
+                            </div>
+                            <div class="col-6">
+                                <form action="/delete/{{ song.id }}" method="POST">
+                                    <input type="hidden" name="_method" value="DELETE">
+                                    <input type="submit" class="btn btn-danger" value="Delete Song">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        <hr>
-    {% endfor %}
+    
 {% endblock %}
